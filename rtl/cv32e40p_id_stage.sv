@@ -1467,7 +1467,9 @@ module cv32e40p_id_stage
 
       branch_in_ex_o         <= 1'b0;
 
-    end else if (data_misaligned_i) begin
+    end else begin
+
+	if (data_misaligned_i) begin
       // misaligned data access case
       if (ex_ready_i) begin  // misaligned access case, only unstall alu operands
 
@@ -1602,6 +1604,7 @@ module cv32e40p_id_stage
         //Not doing it can overwrite the RF file with the currennt CSR value rather than the old one
         regfile_alu_we_ex_o <= 1'b0;
       end
+    end
     end
   end
 

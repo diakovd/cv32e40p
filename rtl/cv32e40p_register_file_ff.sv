@@ -150,8 +150,10 @@ module cv32e40p_register_file #(
       for (l = 0; l < NUM_FP_WORDS; l++) begin
         always_ff @(posedge clk, negedge rst_n) begin : fp_regs
           if (rst_n == 1'b0) mem_fp[l] <= '0;
-          else if (we_b_dec[l+NUM_WORDS] == 1'b1) mem_fp[l] <= wdata_b_i;
-          else if (we_a_dec[l+NUM_WORDS] == 1'b1) mem_fp[l] <= wdata_a_i;
+          else begin
+			if (we_b_dec[l+NUM_WORDS] == 1'b1) mem_fp[l] <= wdata_b_i;
+			else if (we_a_dec[l+NUM_WORDS] == 1'b1) mem_fp[l] <= wdata_a_i;
+		  end
         end
       end
     end else begin : gen_no_mem_fp_write

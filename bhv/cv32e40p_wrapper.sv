@@ -11,11 +11,19 @@
 // Wrapper for a cv32e40p, containing cv32e40p, and tracer
 // Contributor: Davide Schiavone <davide@openhwgroup.org>
 
-`ifdef CV32E40P_ASSERT_ON
-`include "cv32e40p_prefetch_controller_sva.sv"
-`endif
+// synthesis translate_off
+ `define CV32E40P_ASSERT_ON
+`define CV32E40P_APU_TRACE
+`define CV32E40P_TRACE_EXECUTION
 
 `include "cv32e40p_core_log.sv"
+ // synthesis translate_on
+ 
+//`ifdef CV32E40P_ASSERT_ON
+//`include "cv32e40p_prefetch_controller_sva.sv"
+//`endif
+
+
 
 `ifdef CV32E40P_APU_TRACE
 `include "cv32e40p_apu_tracer.sv"
@@ -93,6 +101,7 @@ module cv32e40p_wrapper
     input  logic fetch_enable_i,
     output logic core_sleep_o
 );
+  localparam DEPTH                     = 2; //must be greater or equal to 2 //Set at least to 3 to avoid stalls compared to the master branch
 
 `ifdef CV32E40P_ASSERT_ON
 
@@ -107,7 +116,7 @@ module cv32e40p_wrapper
       .FIFO_ADDR_DEPTH(FIFO_ADDR_DEPTH)
   ) prefetch_controller_sva (.*);
 
-`endif  // CV32E40P_ASSERT_ON
+
 
   cv32e40p_core_log #(
       .PULP_XPULP      (PULP_XPULP),
@@ -122,6 +131,7 @@ module cv32e40p_wrapper
       .hart_id_i         (core_i.hart_id_i),
       .pc_id_i           (core_i.pc_id)
   );
+`endif  // CV32E40P_ASSERT_ON
 
 `ifdef CV32E40P_APU_TRACE
   cv32e40p_apu_tracer apu_tracer_i (

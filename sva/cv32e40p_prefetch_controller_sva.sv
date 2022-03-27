@@ -26,6 +26,8 @@
 // Description:    SV Properties, Assertions, etc, for the CV32E40P           //
 //                 Prefetch Controller.                                       //
 ////////////////////////////////////////////////////////////////////////////////
+`include "uvm_macros.svh"
+import uvm_pkg::*; // needed for the UVM messaging service (`uvm_error(), etc.)
 
 module cv32e40p_prefetch_controller_sva
 #(
@@ -74,7 +76,6 @@ module cv32e40p_prefetch_controller_sva
   input  logic        hwlp_flush_resp
 );
 
-  import uvm_pkg::*; // needed for the UVM messaging service (`uvm_error(), etc.)
 
   // Check that outstanding transaction count will not overflow DEPTH
   property p_no_transaction_count_overflow_0;

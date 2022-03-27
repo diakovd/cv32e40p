@@ -140,8 +140,8 @@ module cv32e40p_fifo #(
   always_ff @(posedge clk_i or negedge rst_ni) begin
     if (~rst_ni) begin
       mem_q <= '0;
-    end else if (!gate_clock) begin
-      mem_q <= mem_n;
+    end else begin
+		if (!gate_clock) mem_q <= mem_n;
     end
   end
 

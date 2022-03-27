@@ -143,7 +143,8 @@ module cv32e40p_if_stage #(
     unique case (exc_pc_mux_i)
       EXC_PC_EXCEPTION:
       exc_pc = {trap_base_addr, 8'h0};  //1.10 all the exceptions go to base address
-      EXC_PC_IRQ: exc_pc = {trap_base_addr, 1'b0, exc_vec_pc_mux, 2'b0};  // interrupts are vectored
+//      EXC_PC_IRQ: exc_pc = {trap_base_addr, 1'b0, exc_vec_pc_mux, 2'b0};  // interrupts are vectored
+      EXC_PC_IRQ: exc_pc = {8'h0, trap_base_addr};  // interrupts are vectored
       EXC_PC_DBD: exc_pc = {dm_halt_addr_i[31:2], 2'b0};
       EXC_PC_DBE: exc_pc = {dm_exception_addr_i[31:2], 2'b0};
       default: exc_pc = {trap_base_addr, 8'h0};

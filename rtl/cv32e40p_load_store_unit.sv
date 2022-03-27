@@ -189,14 +189,16 @@ module cv32e40p_load_store_unit #(
       data_we_q         <= 1'b0;
       data_load_event_q <= 1'b0;
     end
-    else if (ctrl_update) // request was granted, we wait for rvalid and can continue to WB
-    begin
-      data_type_q       <= data_type_ex_i;
-      rdata_offset_q    <= data_addr_int[1:0];
-      data_sign_ext_q   <= data_sign_ext_ex_i;
-      data_we_q         <= data_we_ex_i;
-      data_load_event_q <= data_load_event_ex_i;
-    end
+    else begin
+		if (ctrl_update) // request was granted, we wait for rvalid and can continue to WB
+		begin
+		  data_type_q       <= data_type_ex_i;
+		  rdata_offset_q    <= data_addr_int[1:0];
+		  data_sign_ext_q   <= data_sign_ext_ex_i;
+		  data_we_q         <= data_we_ex_i;
+		  data_load_event_q <= data_load_event_ex_i;
+		end
+	end
   end
 
   // Load event starts when request is sent and finishes when (final) rvalid is received

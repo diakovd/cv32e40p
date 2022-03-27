@@ -25,6 +25,7 @@
 `ifdef CV32E40P_TRACE_EXECUTION
 
 `include "uvm_macros.svh"
+`timescale 1 ps / 1 ps
 
 module cv32e40p_tracer
   import cv32e40p_pkg::*;
